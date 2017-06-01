@@ -25,12 +25,16 @@ function getData(ID){
 	var param1 = 0x2B;
 	var param2 = 0x01;
 
+	port.on('data', function(data) {
+    	console.log("Data received!");
+  	});
+
 
 	var checksum = ~(id + length + ins + param1 + param2) & 0xFF;
 	
 	motor.digitalWrite(1);
 
-	uint8.set([start, start, id, length, ins, param1, param2, checksum]);
+	uint8.set([start, start, id, length, ins, param1, param2, checksum],0);
 	port.write(uint8);
 
 	setTimeout(function(){
@@ -44,7 +48,7 @@ function getData(ID){
 
 }
 
-setTimeout(function(){
+setInterval(function(){
 	getData(1);
 },100);
 
